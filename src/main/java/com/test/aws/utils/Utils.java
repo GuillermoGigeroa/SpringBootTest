@@ -10,9 +10,18 @@ public class Utils {
 		return response;
 	}
 	
-	public static void writeMessage(String message) {
+	public static String writeMessage(String message) {
+		StringBuilder builder = new StringBuilder();
 		System.out.println(Utils.getLine(message));
 		System.out.println(message);
 		System.out.println(Utils.getLine(message));
+		builder.append(Utils.getLine(message));
+		builder.append(message);
+		builder.append(Utils.getLine(message));
+		return builder.toString();
+	}
+	
+	public static Exception generateException(String message) {
+		return new Exception(message);
 	}
 }

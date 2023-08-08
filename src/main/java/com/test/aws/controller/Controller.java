@@ -26,93 +26,89 @@ public class Controller {
 		sqsHandler = new SQSHandler();
 	}
 	
-	public void executeCommand(String[] commands) {
+	public String executeCommand(String[] commands) {
 		switch (commands[0]) {
 			case "S3TEST":
-				this.testS3Connection();
-				break;
+				return this.testS3Connection();
 			case "S3UPLOAD":
-				this.testS3Upload();
-				break;
+				return this.testS3Upload();
 			case "S3DOWNLOAD":
-				this.testS3Download();
-				break;
+				return this.testS3Download();
 			case "S3DELETE":
-				this.testS3Delete();
-				break;
+				return this.testS3Delete();
 			case "SQSTEST":
-				this.testSQSConnection();
-				break;
+				return this.testSQSConnection();
 			case "SQSWRITE":
 				if (commands.length > 1) {
-					this.testSQSWriteMessage(commands[1]);
+					return this.testSQSWriteMessage(commands[1]);
 				} else {
-					Utils.writeMessage("Se debe escribir mensaje");
+					return "Se debe escribir mensaje";
 				}
-				break;
 			case "SQSREAD":
-				this.testSQSReadMessage();
-				break;
+				return this.testSQSReadMessage();
 			default:
 				Utils.writeMessage("Comando ingresado no es valido.");
-				break;
+				return "Comando ingresado no es valido.";
 		}
 	}
 
-	public void testS3Connection() {
+	public String testS3Connection() {
 		try {
 			ListBucketsResponse response = s3Handler.getData();
-			Utils.writeMessage(response.toString());
+			return response.toString();
 		} catch (Exception e) {
 			String errorMessage = "No se ha establecido la conexion, verifique credenciales.";
-			Utils.writeMessage(errorMessage);
+			return errorMessage + e.toString();
 		}
 	}
-	public void testS3Upload() {
-		s3Handler.putS3Object(bucketName, keyName, fileUrl);
+	public String testS3Upload() {
+		return s3Handler.putS3Object(bucketName, keyName, fileUrl);
 	}
 	
-	public void testS3Download() {
-		s3Handler.getObjectBytes(bucketName, keyName, downloadUrl);
+	public String testS3Download() {
+		return s3Handler.getObjectBytes(bucketName, keyName, downloadUrl);
 	}
 	
-	public void testS3Delete() {
-		s3Handler.deleteBucketObjects(bucketName, keyName);
+	public String testS3Delete() {
+		return s3Handler.deleteBucketObjects(bucketName, keyName);
 	}
 	
-	public void testSQSConnection() {
+	public String testSQSConnection() {
 		try {
 			ListQueuesResponse response = sqsHandler.getData(sqsQueueName);
-			Utils.writeMessage(response.toString());
+			return response.toString();
 		} catch (Exception e) {
 			String errorMessage = "No se ha establecido la conexion, verifique credenciales.";
-			Utils.writeMessage(errorMessage);
+			return errorMessage + e.toString();
 		}
 	}
 	
-	public void getSQSQueueUrl() {
+	public void getSQSQueueUrl() throws Exception {
 		try {
 			ListQueuesResponse response = sqsHandler.getData(sqsQueueName);
 			sqsQueueUrl = response.queueUrls().get(0);
 		} catch (Exception e) {
 			Utils.writeMessage(e.toString());
+			throw Utils.generateException(e.toString());
 		}
 	}
 	
-	public void testSQSReadMessage() {
+	public String testSQSReadMessage() {
 		try {
 			this.getSQSQueueUrl();
 			List<Message> list = sqsHandler.read(sqsQueueUrl, 1);
 			if (!list.isEmpty()) {
 				Message message = list.get(0);
 				Utils.writeMessage(message.body());
-				sqsHandler.deleteMessage(sqsQueueUrl, message);
+				return sqsHandler.deleteMessage(sqsQueueUrl, message);
 			} else {
 				Utils.writeMessage("No se ha recibido ningun mensaje");
+				return "No se ha recibido ningun mensaje";
 			}
 		}
 		catch (Exception e) {
 			Utils.writeMessage(e.toString());
+			return e.toString();
 		}
 	}
 	
@@ -120,14 +116,15 @@ public class Controller {
 		testSQSWriteMessage("test");
 	}
 	
-	public void testSQSWriteMessage(String message) {
+	public String testSQSWriteMessage(String message) {
 		try {
 			this.sqsMessageGroupId = this.generateUUID();
 			this.getSQSQueueUrl();
-			sqsHandler.sendMessage(sqsQueueUrl, message, sqsMessageGroupId);
+			return sqsHandler.sendMessage(sqsQueueUrl, message, sqsMessageGroupId);
 		}
 		catch (Exception e) {
 			Utils.writeMessage(e.toString());
+			return e.toString();
 		}
 	}
 	

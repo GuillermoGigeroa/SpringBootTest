@@ -40,7 +40,7 @@ public class S3Handler implements RequestHandler<Object, Object> {
     	return s3Client.listBuckets();
     }
     
-    public void putS3Object(String bucketName, String objectKey, String objectPath) {
+    public String putS3Object(String bucketName, String objectKey, String objectPath) {
     	// This method uses RequestBody.fromFile to avoid loading the whole file into memory.
         try {
             Map<String, String> metadata = new HashMap<>();
@@ -51,14 +51,14 @@ public class S3Handler implements RequestHandler<Object, Object> {
                 .metadata(metadata)
                 .build();
             s3Client.putObject(putOb, RequestBody.fromFile(new File(objectPath)));
-            System.out.println("Successfully placed " + objectKey +" into bucket "+bucketName);
+            return "Successfully placed " + objectKey +" into bucket "+bucketName;
         } catch (S3Exception e) {
             System.err.println(e.getMessage());
-            System.exit(1);
+            return e.getMessage().toString();
         }
     }
 
-    public void getObjectBytes (String bucketName, String keyName, String path) {
+    public String getObjectBytes (String bucketName, String keyName, String path) {
         try {
             GetObjectRequest objectRequest = GetObjectRequest
                 .builder()
@@ -73,15 +73,17 @@ public class S3Handler implements RequestHandler<Object, Object> {
             os.write(data);
             Utils.writeMessage("Successfully obtained file from S3");
             os.close();
+            return "Successfully obtained file from S3";
         } catch (IOException ex) {
             ex.printStackTrace();
+            return ex.getStackTrace().toString();
         } catch (S3Exception e) {
             System.err.println(e.awsErrorDetails().errorMessage());
-            System.exit(1);
+            return e.awsErrorDetails().errorMessage().toString();
         }
     }
     
-    public void deleteBucketObjects(String bucketName, String keyName) {
+    public String deleteBucketObjects(String bucketName, String keyName) {
     	// Delete multiple objects in one request.
         ArrayList<ObjectIdentifier> keys = new ArrayList<>();
         ObjectIdentifier objectId = ObjectIdentifier.builder()
@@ -99,10 +101,10 @@ public class S3Handler implements RequestHandler<Object, Object> {
 
             s3Client.deleteObjects(multiObjectDeleteRequest);
             Utils.writeMessage("File was deleted!");
-        
+            return "File was deleted!";
         } catch (S3Exception e) {
             System.err.println(e.awsErrorDetails().errorMessage());
-            System.exit(1);
+            return e.awsErrorDetails().errorMessage().toString();
         }
     }
 

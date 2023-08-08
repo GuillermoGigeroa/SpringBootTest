@@ -55,7 +55,7 @@ public class SQSHandler implements RequestHandler<Object, Object> {
         return null;
     }
     
-    public void sendMessage(String queueUrl, String message, String messageGroupId) {
+    public String sendMessage(String queueUrl, String message, String messageGroupId) {
         try {
             SendMessageRequest sendMsgRequest = SendMessageRequest.builder()
                 .queueUrl(queueUrl)
@@ -64,18 +64,25 @@ public class SQSHandler implements RequestHandler<Object, Object> {
                 .build();
             sqsClient.sendMessage(sendMsgRequest);
             Utils.writeMessage("Message '"+message+"' was sent succesfully to '"+queueUrl+"'.");
+            return "Message '"+message+"' was sent succesfully to '"+queueUrl+"'.";
         } catch (SqsException e) {
             System.err.println(e.awsErrorDetails().errorMessage());
-            System.exit(1);
+            return e.awsErrorDetails().errorMessage().toString();
         }
     }
 
-    public void deleteMessage(String queueUrl, Message message) {
-        DeleteMessageRequest deleteMessageRequest = DeleteMessageRequest.builder()
-            .queueUrl(queueUrl)
-            .receiptHandle(message.receiptHandle())
-            .build();
-        sqsClient.deleteMessage(deleteMessageRequest);
+    public String deleteMessage(String queueUrl, Message message) {
+    	try {
+    		DeleteMessageRequest deleteMessageRequest = DeleteMessageRequest.builder()
+    				.queueUrl(queueUrl)
+    				.receiptHandle(message.receiptHandle())
+    				.build();
+    		sqsClient.deleteMessage(deleteMessageRequest);
+    		return "Message was deleted!";
+    	}
+    	catch (Exception e) {
+    		return e.toString();
+    	}
     }
     
 }

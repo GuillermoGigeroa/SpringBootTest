@@ -23,11 +23,10 @@ public class AppApplication {
 	}
 	
 	@GetMapping("/sqs/{command}")
-	public String sqsCommand(@PathVariable String command) {
+	public String sqsCommand(@PathVariable String[] commands) {
 		try {
 			Controller controller = new Controller();
-			controller.testSQSConnection();
-			return "sqs command: "+command;
+			return controller.executeCommand(commands);
 		}
 		catch (Exception e) {
 			return e.toString();
