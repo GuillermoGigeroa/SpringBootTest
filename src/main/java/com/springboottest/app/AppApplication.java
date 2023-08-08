@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.test.aws.controller.Controller;
+
 @RestController
 @SpringBootApplication
 public class AppApplication {
@@ -22,7 +24,14 @@ public class AppApplication {
 	
 	@GetMapping("/sqs/{command}")
 	public String sqsCommand(@PathVariable String command) {
-		return "sqs command: "+command;
+		try {
+			Controller controller = new Controller();
+			controller.testSQSConnection();
+			return "sqs command: "+command;
+		}
+		catch (Exception e) {
+			return e.toString();
+		}
 	}
 	
 	@GetMapping("/test")
