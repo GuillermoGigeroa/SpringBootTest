@@ -22,7 +22,7 @@ public class AppApplication {
 		return "Sistema activo y funcionando correctamente.";
 	}
 	
-	@GetMapping("/sqs/{command}")
+	@GetMapping("/sqs/{commands}")
 	public String sqsCommand(@PathVariable String[] commands) {
 		try {
 			Controller controller = new Controller();
