@@ -24,5 +24,10 @@ public class AppApplication {
 	public String sqsCommand(@PathVariable String command) {
 		return "sqs command: "+command;
 	}
+	
+	@GetMapping("/test")
+	public String test() {
+		return "test";
+	}
 
 }
