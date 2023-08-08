@@ -100,7 +100,8 @@ public class Controller {
 			if (!list.isEmpty()) {
 				Message message = list.get(0);
 				Utils.writeMessage(message.body());
-				return sqsHandler.deleteMessage(sqsQueueUrl, message);
+				sqsHandler.deleteMessage(sqsQueueUrl, message);
+				return message.body();
 			} else {
 				Utils.writeMessage("No se ha recibido ningun mensaje");
 				return "No se ha recibido ningun mensaje";
