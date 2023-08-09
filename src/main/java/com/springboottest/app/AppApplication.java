@@ -37,8 +37,9 @@ public class AppApplication {
 	@GetMapping("/test")
 	public String test() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Sistema activo y funcionando correctamente.");
-		builder.append("Se testea builder.");
+		builder.append("Sistema activo y funcionando correctamente.")
+		.append('\n')
+		.append("Se testea builder.");
 		return Utils.logger(builder.toString());
 	}
 
