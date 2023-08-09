@@ -1,0 +1,19 @@
+@charset "UTF-8";
+.btn {
+	width: fit-content;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+a {
+	color: green;
+	text-decoration: none;
+}
+
+a:hover {
+	color: white;
+}
