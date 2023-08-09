@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.test.aws.controller.Controller;
+import com.test.aws.controller.CommandHandler;
+import com.test.aws.utils.Utils;
 
 @RestController
 @SpringBootApplication
@@ -19,23 +20,26 @@ public class AppApplication {
 	
 	@RequestMapping("/")
 	public String home() {
-		return "Sistema activo y funcionando correctamente.";
+		return Utils.logger("Sistema activo y funcionando correctamente.");
 	}
 	
-	@GetMapping("/sqs/{commands}")
+	@GetMapping("/execute/{commands}")
 	public String sqsCommand(@PathVariable String[] commands) {
 		try {
-			Controller controller = new Controller();
-			return controller.executeCommand(commands);
+			CommandHandler commandHandler = new CommandHandler();
+			return Utils.logger(commandHandler.executeCommand(commands));
 		}
 		catch (Exception e) {
-			return e.toString();
+			return Utils.logger(e.toString()+ ":\n" +e.getMessage().toString());
 		}
 	}
 	
 	@GetMapping("/test")
 	public String test() {
-		return "Nuevo test Guille";
+		StringBuilder builder = new StringBuilder();
+		builder.append("Sistema activo y funcionando correctamente.");
+		builder.append("Se testea builder.");
+		return Utils.logger(builder.toString());
 	}
 
 }

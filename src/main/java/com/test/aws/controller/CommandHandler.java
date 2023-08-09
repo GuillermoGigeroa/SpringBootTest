@@ -9,7 +9,7 @@ import software.amazon.awssdk.services.sqs.model.Message;
 import software.amazon.awssdk.services.s3.model.ListBucketsResponse;
 import software.amazon.awssdk.services.sqs.model.ListQueuesResponse;
 
-public class Controller {
+public class CommandHandler {
 	
 	private S3Handler s3Handler;
 	private SQSHandler sqsHandler;
@@ -21,7 +21,7 @@ public class Controller {
 	private String sqsMessageGroupId;
 	private String sqsQueueUrl;
 	
-	public Controller() {
+	public CommandHandler() {
 		s3Handler = new S3Handler();
 		sqsHandler = new SQSHandler();
 	}
