@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.test.aws.controller.CommandHandler;
 import com.test.aws.utils.Utils;
@@ -21,6 +22,14 @@ public class AppApplication {
 	@RequestMapping("/")
 	public String home() {
 		return Utils.logger("Sistema activo y funcionando correctamente.");
+	}
+	
+	@RequestMapping("/web")
+	public ModelAndView index() {
+		ModelAndView MAV = new ModelAndView("index");
+		Utils.logger("Sistema activo y funcionando correctamente.");
+		MAV.addObject("link","");
+		return MAV;
 	}
 	
 	@GetMapping("/execute/{commands}")
