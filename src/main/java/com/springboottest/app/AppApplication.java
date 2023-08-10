@@ -19,37 +19,27 @@ public class AppApplication {
 		SpringApplication.run(AppApplication.class, args);
 	}
 	
-	@RequestMapping("/")
-	public String home() {
-		return Utils.logger("Sistema activo y funcionando correctamente.");
-	}
-	
-	@RequestMapping("/web")
+	@GetMapping("/")
 	public ModelAndView index() {
 		ModelAndView MAV = new ModelAndView("index");
-		Utils.logger("Sistema activo y funcionando correctamente.");
-		MAV.addObject("link","");
+		MAV.addObject("link","test");
 		return MAV;
 	}
 	
-	@GetMapping("/execute/{commands}")
-	public String sqsCommand(@PathVariable String[] commands) {
+	@GetMapping("/test")
+	public String home() {
+		return Utils.logger("Sistema activo y funcionando correctamente. Para ejecutar comandos ingrese a /ejecutar/{comandos}");
+	}
+	
+	@GetMapping("/ejecutar/{comandos}")
+	public String ejecutarComandos(@PathVariable String[] comandos) {
 		try {
 			CommandHandler commandHandler = new CommandHandler();
-			return Utils.logger(commandHandler.executeCommand(commands));
+			return Utils.logger(commandHandler.executeCommand(comandos));
 		}
 		catch (Exception e) {
 			return Utils.logger(e.toString()+ ":\n" +e.getMessage().toString());
 		}
 	}
 	
-	@GetMapping("/test")
-	public String test() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Sistema activo y funcionando correctamente.")
-		.append('\n')
-		.append("Se testea builder.");
-		return Utils.logger(builder.toString());
-	}
-
 }

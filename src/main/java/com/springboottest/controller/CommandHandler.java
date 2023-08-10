@@ -51,8 +51,7 @@ public class CommandHandler {
 			case "SQSREAD":
 				return this.testSQSReadMessage();
 			default:
-				Utils.writeMessage("Comando ingresado no es valido.");
-				return "Comando ingresado no es valido.";
+				return "Comando ingresado no válido.";
 		}
 	}
 
