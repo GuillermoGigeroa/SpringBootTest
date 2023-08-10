@@ -1,4 +1,4 @@
-package com.test.aws.utils;
+package com.springboottest.utils;
 
 public class Utils {
 	public static String writeMessage(String message) {

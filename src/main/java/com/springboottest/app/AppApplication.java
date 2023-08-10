@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.test.aws.controller.CommandHandler;
-import com.test.aws.utils.Utils;
+import com.springboottest.controller.CommandHandler;
+import com.springboottest.utils.Utils;
 
 @RestController
 @SpringBootApplication

@@ -1,14 +1,18 @@
-package com.test.aws.controller;
+package com.springboottest.controller;
 
 import java.util.List;
 import java.util.UUID;
-import com.test.aws.handlers.S3Handler;
-import com.test.aws.handlers.SQSHandler;
-import com.test.aws.utils.Utils;
+import org.springframework.stereotype.Component;
+
+import com.springboottest.aws.handlers.S3Handler;
+import com.springboottest.aws.handlers.SQSHandler;
+import com.springboottest.utils.Utils;
+
 import software.amazon.awssdk.services.sqs.model.Message;
 import software.amazon.awssdk.services.s3.model.ListBucketsResponse;
 import software.amazon.awssdk.services.sqs.model.ListQueuesResponse;
 
+@Component
 public class CommandHandler {
 	
 	private S3Handler s3Handler;
