@@ -11,6 +11,7 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.AttributeDefinition;
 import software.amazon.awssdk.services.dynamodb.model.CreateTableRequest;
 import software.amazon.awssdk.services.dynamodb.model.CreateTableResponse;
+import software.amazon.awssdk.services.dynamodb.model.DeleteTableRequest;
 import software.amazon.awssdk.services.dynamodb.model.DescribeTableRequest;
 import software.amazon.awssdk.services.dynamodb.model.DescribeTableResponse;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
@@ -140,10 +141,22 @@ public class DynamoDBHandler implements RequestHandler<Object, Object> {
                 }
             } catch (DynamoDbException e) {
                 System.err.println(e.getMessage());
-                System.exit(1);
             }
         }
         return tableNames.toString();
+    }
+    
+    public String deleteDynamoDBTable(String tableName) {
+        DeleteTableRequest request = DeleteTableRequest.builder()
+                .tableName(tableName)
+                .build();
+        try {
+            dynamoDBClient.deleteTable(request);
+        } catch (DynamoDbException e) {
+            System.err.println(e.getMessage());
+            return e.getMessage().toString();
+        }
+        return tableName + " was successfully deleted!";
     }
     
 }

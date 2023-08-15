@@ -71,6 +71,12 @@ public class CommandHandler {
 				} else {
 					return "Se debe ingresar nombre de tabla y la key.";
 				}
+			case "DYNAMODBDELETETABLE":
+				if (commands.length > 1) {
+					return this.dynamoDBHandler.deleteDynamoDBTable(commands[1]);
+				} else {
+					return "Se debe ingresar el nombre de la tabla a eliminar.";
+				}
 			case "DYNAMODBLISTTABLES":
 				return this.dynamoDBHandler.listAllTables();
 		}
