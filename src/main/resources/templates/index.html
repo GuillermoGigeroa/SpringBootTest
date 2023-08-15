@@ -42,14 +42,36 @@
 	        </li>
 	        <li class="nav-item dropdown">
 	          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-	            Ejecutar
+	            Conexiones
 	          </a>
 	          <ul class="dropdown-menu">
-	            <li><a class="dropdown-item" href="/ejecutar/SQSTEST">Prueba SQS</a></li>
+	            <li><a class="dropdown-item" href="/ejecutar/SQSTEST">Probar conexión a SQS</a></li>
 	            <li><hr class="dropdown-divider"></li>
-	            <li><a class="dropdown-item" href="/ejecutar/S3TEST">Prueba S3</a></li>
+	            <li><a class="dropdown-item" href="/ejecutar/S3TEST">Probar conexión a S3</a></li>
 	            <li><hr class="dropdown-divider"></li>
-	            <li><a class="dropdown-item" href="/ejecutar/DYNAMODBTEST,pruebaCertant">Prueba DynamoDB</a></li>
+	            <li><a class="dropdown-item" href="/ejecutar/DYNAMODBTEST,pruebaCertant">Probar conexión a DynamoDB</a></li>
+	          </ul>
+	        </li>
+	        <li class="nav-item dropdown">
+	          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+	            S3
+	          </a>
+	          <ul class="dropdown-menu">
+	            <li><a class="dropdown-item" href="/ejecutar/S3UPLOAD,test.txt">Subir archivo</a></li>
+	            <li><hr class="dropdown-divider"></li>
+	            <li><a class="dropdown-item" href="/ejecutar/S3DOWNLOAD,test.txt">Descargar archivo</a></li>
+	            <li><hr class="dropdown-divider"></li>
+	            <li><a class="dropdown-item" href="/ejecutar/S3DELETE,pruebaCertant">Eliminar archivo</a></li>
+	          </ul>
+	        </li>
+	        <li class="nav-item dropdown">
+	          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+	            DynamoDB
+	          </a>
+	          <ul class="dropdown-menu">
+	            <li><a class="dropdown-item" href="/ejecutar/DYNAMODBCREATETABLE,newTable,tableKey">Crear tabla</a></li>
+	            <li><hr class="dropdown-divider"></li>
+	            <li><a class="dropdown-item" href="/ejecutar/DYNAMODBLISTTABLES">Listar tablas</a></li>
 	          </ul>
 	        </li>
 	      </ul>

@@ -1,5 +1,6 @@
 package com.springboottest.aws.handlers;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
@@ -15,6 +16,8 @@ import software.amazon.awssdk.services.dynamodb.model.DescribeTableResponse;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 import software.amazon.awssdk.services.dynamodb.model.KeySchemaElement;
 import software.amazon.awssdk.services.dynamodb.model.KeyType;
+import software.amazon.awssdk.services.dynamodb.model.ListTablesRequest;
+import software.amazon.awssdk.services.dynamodb.model.ListTablesResponse;
 import software.amazon.awssdk.services.dynamodb.model.ProvisionedThroughput;
 import software.amazon.awssdk.services.dynamodb.model.ProvisionedThroughputDescription;
 import software.amazon.awssdk.services.dynamodb.model.ScalarAttributeType;
@@ -100,11 +103,47 @@ public class DynamoDBHandler implements RequestHandler<Object, Object> {
             WaiterResponse<DescribeTableResponse> waiterResponse =  dbWaiter.waitUntilTableExists(tableRequest);
             waiterResponse.matched().response().ifPresent(System.out::println);
             newTable = response.tableDescription().tableName();
-            return newTable+" creada.";
+            return "Tabla "+newTable+" ha sido creada.";
         } catch (DynamoDbException e) {
             System.err.println(e.getMessage());
             return e.getMessage().toString();
         }
+    }
+    
+    public String listAllTables(){
+        boolean moreTables = true;
+        String lastName = null;
+        List<String> tableNames = new ArrayList<String>();
+        while(moreTables) {
+            try {
+                ListTablesResponse response = null;
+                if (lastName == null) {
+                    ListTablesRequest request = ListTablesRequest.builder().build();
+                    response = dynamoDBClient.listTables(request);
+                } else {
+                    ListTablesRequest request = ListTablesRequest.builder()
+                            .exclusiveStartTableName(lastName).build();
+                    response = dynamoDBClient.listTables(request);
+                }
+                tableNames = response.tableNames();
+                if (tableNames.size() > 0) {
+                    for (String curName : tableNames) {
+                        System.out.format("* %s\n", curName);
+                    }
+                } else {
+                    System.out.println("No tables found!");
+                    System.exit(0);
+                }
+                lastName = response.lastEvaluatedTableName();
+                if (lastName == null) {
+                    moreTables = false;
+                }
+            } catch (DynamoDbException e) {
+                System.err.println(e.getMessage());
+                System.exit(1);
+            }
+        }
+        return tableNames.toString();
     }
     
 }

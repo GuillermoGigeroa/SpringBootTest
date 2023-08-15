@@ -71,6 +71,8 @@ public class CommandHandler {
 				} else {
 					return "Se debe ingresar nombre de tabla y la key.";
 				}
+			case "DYNAMODBLISTTABLES":
+				return this.dynamoDBHandler.listAllTables();
 		}
 		return "Comando no válido";
 	}
