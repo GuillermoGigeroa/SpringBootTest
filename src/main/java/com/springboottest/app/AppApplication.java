@@ -15,6 +15,7 @@ import com.springboottest.utils.Utils;
 @SpringBootApplication
 public class AppApplication {
 	private ModelAndView MAV = new ModelAndView("index");
+	private CommandHandler commandHandler = new CommandHandler();
 	private String logs = "Sistema activo y funcionando correctamente.";
 
 	public static void main(String[] args) {
@@ -23,32 +24,33 @@ public class AppApplication {
 	
 	@GetMapping("/")
 	public ModelAndView index() {
+		logs = "Sistema activo y funcionando correctamente.";
+		MAV.addObject("logs", logs);
 		return MAV;
 	}
 	
 	@GetMapping("/test")
 	public ModelAndView test() {
-		this.logs = "Sistema activo y funcionando correctamente. Para ejecutar comandos ingrese a /ejecutar/{comandos}";
-		this.MAV.addObject("logs",this.logs);
+		logs = "Sistema activo y funcionando correctamente. Para ejecutar comandos ingrese a /ejecutar/{comandos}";
+		MAV.addObject("logs", logs);
 		return MAV;
 	}
 	
 	@GetMapping("/ejecutar/{comandos}")
 	public ModelAndView ejecutarComandos(@PathVariable String[] comandos) {
 		try {
-			CommandHandler commandHandler = new CommandHandler();
-			this.logs = Utils.logger(commandHandler.executeCommand(comandos));
+			logs = Utils.logger(commandHandler.executeCommand(comandos));
 		}
 		catch (Exception e) {
-			this.logs = Utils.logger(e.toString()+ ":\n" +e.getMessage().toString());
+			logs = Utils.logger(e.toString()+ ":\n" +e.getMessage().toString());
 		}
-		this.MAV.addObject("logs",this.logs);
+		MAV.addObject("logs", logs);
 		return MAV;
 	}
 	
 	@ModelAttribute("logs")
 	public String getLogs() {
-	    return this.logs;
+	    return logs;
 	}
 	
 }

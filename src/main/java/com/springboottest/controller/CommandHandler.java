@@ -49,7 +49,7 @@ public class CommandHandler {
 				if (commands.length > 1) {
 					return this.testSQSWriteMessage(commands[1]);
 				} else {
-					return "Se debe escribir mensaje";
+					return "Se debe escribir mensaje.";
 				}
 			case "SQSREAD":
 				return this.testSQSReadMessage();
@@ -57,11 +57,10 @@ public class CommandHandler {
 				if (commands.length > 1) {
 					return this.testDynamoDB(commands[1]);
 				} else {
-					return "Se debe ingresar el nombre de la tabla";
+					return "Se debe ingresar el nombre de la tabla.";
 				}
-			default:
-				return "Comando ingresado no válido.";
 		}
+		return "Comando no válido";
 	}
 
 	public String testS3Connection() {
