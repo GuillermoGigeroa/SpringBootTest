@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
 
+import com.springboottest.aws.handlers.DynamoDBHandler;
 import com.springboottest.aws.handlers.S3Handler;
 import com.springboottest.aws.handlers.SQSHandler;
 import com.springboottest.utils.Utils;
@@ -17,6 +18,7 @@ public class CommandHandler {
 	
 	private S3Handler s3Handler;
 	private SQSHandler sqsHandler;
+	private DynamoDBHandler dynamoDBHandler;
 	private final static String fileUrl = "C:\\Users\\ggigeroa\\Documents\\workspace-test\\java-aws-test\\files\\upload.txt";
 	private final static String downloadUrl = "C:\\Users\\ggigeroa\\Documents\\workspace-test\\java-aws-test\\files\\download.txt";
 	private final static String bucketName = "certantbuckettest";
@@ -50,6 +52,12 @@ public class CommandHandler {
 				}
 			case "SQSREAD":
 				return this.testSQSReadMessage();
+			case "DYNAMODBTEST":
+				if (commands.length > 1) {
+					return this.testDynamoDB(commands[1]);
+				} else {
+					return "Se debe ingresar el nombre de la tabla";
+				}
 			default:
 				return "Comando ingresado no válido.";
 		}
@@ -135,6 +143,10 @@ public class CommandHandler {
 	public String generateUUID() {
 		UUID uuid = UUID.randomUUID();
 		return uuid.toString();
+	}
+	
+	public String testDynamoDB(String tableName) {
+		return dynamoDBHandler.describeDymamoDBTable(tableName);
 	}
 	
 }
