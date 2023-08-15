@@ -30,6 +30,7 @@ public class CommandHandler {
 	public CommandHandler() {
 		s3Handler = new S3Handler();
 		sqsHandler = new SQSHandler();
+		dynamoDBHandler = new DynamoDBHandler();
 	}
 	
 	public String executeCommand(String[] commands) {

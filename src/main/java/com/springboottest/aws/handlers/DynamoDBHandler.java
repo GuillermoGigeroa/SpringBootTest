@@ -24,15 +24,12 @@ public class DynamoDBHandler implements RequestHandler<Object, Object> {
     }
     
     public String describeDymamoDBTable(String tableName) {
-
         DescribeTableRequest request = DescribeTableRequest.builder()
                 .tableName(tableName)
                 .build();
-
         try {
             TableDescription tableInfo =
             		dynamoDBClient.describeTable(request).table();
-
             if (tableInfo != null) {
                 System.out.format("Table name  : %s\n",
                         tableInfo.tableName());
@@ -44,7 +41,6 @@ public class DynamoDBHandler implements RequestHandler<Object, Object> {
                         tableInfo.itemCount().longValue());
                 System.out.format("Size (bytes): %d\n",
                         tableInfo.tableSizeBytes().longValue());
-
                 ProvisionedThroughputDescription throughputInfo =
                         tableInfo.provisionedThroughput();
                 System.out.println("Throughput");
@@ -52,17 +48,15 @@ public class DynamoDBHandler implements RequestHandler<Object, Object> {
                         throughputInfo.readCapacityUnits().longValue());
                 System.out.format("  Write Capacity: %d\n",
                         throughputInfo.writeCapacityUnits().longValue());
-
                 List<AttributeDefinition> attributes =
                         tableInfo.attributeDefinitions();
                 System.out.println("Attributes");
-
                 for (AttributeDefinition a : attributes) {
                     System.out.format("  %s (%s)\n",
                             a.attributeName(), a.attributeType());
                 }
             }
-            return "TableDescription:\n"+tableInfo.toString();
+            return tableInfo.toString();
         } catch (DynamoDbException e) {
             System.err.println(e.getMessage());
             return e.getMessage().toString();
