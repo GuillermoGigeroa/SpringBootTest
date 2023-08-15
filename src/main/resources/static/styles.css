@@ -3,17 +3,11 @@
 	width: fit-content;
 }
 
-body {
+body div {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	align-items: center;
-}
-
-a {
-	color: green;
-	text-decoration: none;
-}
-
-a:hover {
-	color: white;
+	justify-content: space-evenly;
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
