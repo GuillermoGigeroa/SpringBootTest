@@ -19,8 +19,6 @@ public class CommandHandler {
 	private S3Handler s3Handler;
 	private SQSHandler sqsHandler;
 	private DynamoDBHandler dynamoDBHandler;
-	private final static String fileUrl = "C:\\Users\\ggigeroa\\Documents\\workspace-test\\java-aws-test\\files\\upload.txt";
-	private final static String downloadUrl = "C:\\Users\\ggigeroa\\Documents\\workspace-test\\java-aws-test\\files\\download.txt";
 	private final static String bucketName = "certantbuckettest";
 	private final static String keyName = "test/txt.txt";
 	private final static String sqsQueueName = "test";
@@ -38,9 +36,17 @@ public class CommandHandler {
 			case "S3TEST":
 				return this.testS3Connection();
 			case "S3UPLOAD":
-				return this.testS3Upload();
+				if (commands.length > 1) {
+					return this.testS3Upload(commands[1]);
+				} else {
+					return "Se debe escribir ubicación del archivo a subir.";
+				}
 			case "S3DOWNLOAD":
-				return this.testS3Download();
+				if (commands.length > 1) {
+					return this.testS3Download(commands[1]);
+				} else {
+					return "Se debe escribir ubicación del archivo a descargar.";
+				}
 			case "S3DELETE":
 				return this.testS3Delete();
 			case "SQSTEST":
@@ -59,6 +65,12 @@ public class CommandHandler {
 				} else {
 					return "Se debe ingresar el nombre de la tabla.";
 				}
+			case "DYNAMODBCREATETABLE":
+				if (commands.length > 2) {
+					return this.dynamoDBHandler.createTable(commands[1], commands[2]);
+				} else {
+					return "Se debe ingresar nombre de tabla y la key.";
+				}
 		}
 		return "Comando no válido";
 	}
@@ -72,11 +84,11 @@ public class CommandHandler {
 			return errorMessage + e.toString();
 		}
 	}
-	public String testS3Upload() {
+	public String testS3Upload(String fileUrl) {
 		return s3Handler.putS3Object(bucketName, keyName, fileUrl);
 	}
 	
-	public String testS3Download() {
+	public String testS3Download(String downloadUrl) {
 		return s3Handler.getObjectBytes(bucketName, keyName, downloadUrl);
 	}
 	

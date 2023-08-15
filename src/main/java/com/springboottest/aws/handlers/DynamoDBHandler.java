@@ -4,12 +4,22 @@ import java.util.List;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.springboottest.aws.factory.DependencyFactory;
+
+import software.amazon.awssdk.core.waiters.WaiterResponse;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.AttributeDefinition;
+import software.amazon.awssdk.services.dynamodb.model.CreateTableRequest;
+import software.amazon.awssdk.services.dynamodb.model.CreateTableResponse;
 import software.amazon.awssdk.services.dynamodb.model.DescribeTableRequest;
+import software.amazon.awssdk.services.dynamodb.model.DescribeTableResponse;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
+import software.amazon.awssdk.services.dynamodb.model.KeySchemaElement;
+import software.amazon.awssdk.services.dynamodb.model.KeyType;
+import software.amazon.awssdk.services.dynamodb.model.ProvisionedThroughput;
 import software.amazon.awssdk.services.dynamodb.model.ProvisionedThroughputDescription;
+import software.amazon.awssdk.services.dynamodb.model.ScalarAttributeType;
 import software.amazon.awssdk.services.dynamodb.model.TableDescription;
+import software.amazon.awssdk.services.dynamodb.waiters.DynamoDbWaiter;
 
 public class DynamoDBHandler implements RequestHandler<Object, Object> {
     private final DynamoDbClient dynamoDBClient;
@@ -57,6 +67,40 @@ public class DynamoDBHandler implements RequestHandler<Object, Object> {
                 }
             }
             return tableInfo.toString();
+        } catch (DynamoDbException e) {
+            System.err.println(e.getMessage());
+            return e.getMessage().toString();
+        }
+    }
+    
+    public String createTable(String tableName, String key) {
+        DynamoDbWaiter dbWaiter = dynamoDBClient.waiter();
+        CreateTableRequest request = CreateTableRequest.builder()
+                .attributeDefinitions(AttributeDefinition.builder()
+                        .attributeName(key)
+                        .attributeType(ScalarAttributeType.S)
+                        .build())
+                .keySchema(KeySchemaElement.builder()
+                        .attributeName(key)
+                        .keyType(KeyType.HASH)
+                        .build())
+                .provisionedThroughput(ProvisionedThroughput.builder()
+                        .readCapacityUnits(Long.valueOf(10))
+                        .writeCapacityUnits(Long.valueOf(10))
+                        .build())
+                .tableName(tableName)
+                .build();
+        String newTable = "";
+        try {
+            CreateTableResponse response = dynamoDBClient.createTable(request);
+            DescribeTableRequest tableRequest = DescribeTableRequest.builder()
+                    .tableName(tableName)
+                    .build();
+            // Wait until the Amazon DynamoDB table is created
+            WaiterResponse<DescribeTableResponse> waiterResponse =  dbWaiter.waitUntilTableExists(tableRequest);
+            waiterResponse.matched().response().ifPresent(System.out::println);
+            newTable = response.tableDescription().tableName();
+            return newTable+" creada.";
         } catch (DynamoDbException e) {
             System.err.println(e.getMessage());
             return e.getMessage().toString();
