@@ -16,7 +16,7 @@ import com.springboottest.utils.Utils;
 public class AppApplication {
 	private ModelAndView MAV = new ModelAndView("index");
 	private CommandHandler commandHandler = new CommandHandler();
-	private String logs = "Sistema activo y funcionando correctamente.";
+	private String logs;
 
 	public static void main(String[] args) {
 		SpringApplication.run(AppApplication.class, args);
@@ -24,13 +24,6 @@ public class AppApplication {
 	
 	@GetMapping("/")
 	public ModelAndView index() {
-		logs = "Sistema activo y funcionando correctamente.";
-		MAV.addObject("logs", logs);
-		return MAV;
-	}
-	
-	@GetMapping("/test")
-	public ModelAndView test() {
 		logs = "Sistema activo y funcionando correctamente. Para ejecutar comandos ingrese a /ejecutar/{comandos}";
 		MAV.addObject("logs", logs);
 		return MAV;

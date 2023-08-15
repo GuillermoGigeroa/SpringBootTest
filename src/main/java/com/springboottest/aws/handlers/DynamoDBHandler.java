@@ -133,7 +133,7 @@ public class DynamoDBHandler implements RequestHandler<Object, Object> {
                     }
                 } else {
                     System.out.println("No tables found!");
-                    System.exit(0);
+                    return "No tables found!";
                 }
                 lastName = response.lastEvaluatedTableName();
                 if (lastName == null) {
