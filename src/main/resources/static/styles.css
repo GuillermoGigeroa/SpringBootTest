@@ -3,11 +3,6 @@
 	width: fit-content;
 }
 
-body div {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: space-evenly;
-	padding-top: 15px;
-	padding-bottom: 15px;
+body {
+	background-color: black;
 }
