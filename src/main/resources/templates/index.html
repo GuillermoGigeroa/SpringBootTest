@@ -12,12 +12,15 @@
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	  <div class="container-fluid">
-	    <a class="navbar-brand" href="/test">Prueba AWS</a>
+	    <a class="navbar-brand" href="/">Prueba AWS</a>
 	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
 	      <span class="navbar-toggler-icon"></span>
 	    </button>
 	    <div class="collapse navbar-collapse" id="navbarScroll">
 	      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+	      	<li class="nav-item">
+	          <a class="nav-link" aria-current="page" href="/test">Test</a>
+	        </li>
 	        <li class="nav-item dropdown">
 	          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 	            Ejecutar
@@ -26,17 +29,16 @@
 	            <li><a class="dropdown-item" href="/ejecutar/SQSTEST">Prueba SQS</a></li>
 	            <li><hr class="dropdown-divider"></li>
 	            <li><a class="dropdown-item" href="/ejecutar/S3TEST">Prueba S3</a></li>
+	            <li><hr class="dropdown-divider"></li>
+	            <li><a class="dropdown-item" href="/ejecutar/DYNAMODBTEST,pruebaCertant">Prueba DynamoDB</a></li>
 	          </ul>
-	        </li>
-	        <li class="nav-item">
-	          <a class="nav-link" href="/ejecutar/SQSTEST">Probar SQS</a>
-	        </li>
-	        <li class="nav-item">
-	          <a class="nav-link" href="/ejecutar/SQSTEST">Probar S3</a>
 	        </li>
 	      </ul>
 	    </div>
 	  </div>
 	</nav>
+	<div class="alert alert-info">
+		<p th:text="${logs}"></p>
+	</div>
 </body>
 </html>

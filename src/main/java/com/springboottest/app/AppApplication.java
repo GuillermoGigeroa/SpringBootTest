@@ -3,6 +3,7 @@ package com.springboottest.app;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,7 +14,8 @@ import com.springboottest.utils.Utils;
 @RestController
 @SpringBootApplication
 public class AppApplication {
-	private ModelAndView MAV;
+	private ModelAndView MAV = new ModelAndView("index");
+	private String logs = "Sistema activo y funcionando correctamente.";
 
 	public static void main(String[] args) {
 		SpringApplication.run(AppApplication.class, args);
@@ -21,30 +23,32 @@ public class AppApplication {
 	
 	@GetMapping("/")
 	public ModelAndView index() {
-		MAV = new ModelAndView("index");
 		return MAV;
 	}
 	
 	@GetMapping("/test")
 	public ModelAndView test() {
-		MAV = new ModelAndView("test");
-		MAV.addObject("test","Sistema activo y funcionando correctamente. Para ejecutar comandos ingrese a /ejecutar/{comandos}");
+		this.logs = "Sistema activo y funcionando correctamente. Para ejecutar comandos ingrese a /ejecutar/{comandos}";
+		this.MAV.addObject("logs",this.logs);
 		return MAV;
 	}
 	
 	@GetMapping("/ejecutar/{comandos}")
 	public ModelAndView ejecutarComandos(@PathVariable String[] comandos) {
-		String log = "Sistema activo y funcionando correctamente.";
 		try {
 			CommandHandler commandHandler = new CommandHandler();
-			log = Utils.logger(commandHandler.executeCommand(comandos));
+			this.logs = Utils.logger(commandHandler.executeCommand(comandos));
 		}
 		catch (Exception e) {
-			log = Utils.logger(e.toString()+ ":\n" +e.getMessage().toString());
+			this.logs = Utils.logger(e.toString()+ ":\n" +e.getMessage().toString());
 		}
-		MAV = new ModelAndView("test");
-		MAV.addObject("test", log);
+		this.MAV.addObject("logs",this.logs);
 		return MAV;
+	}
+	
+	@ModelAttribute("logs")
+	public String getLogs() {
+	    return this.logs;
 	}
 	
 }
