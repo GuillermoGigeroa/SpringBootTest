@@ -5,6 +5,7 @@ import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsPro
 import software.amazon.awssdk.http.SdkHttpClient.Builder;
 import software.amazon.awssdk.http.urlconnection.UrlConnectionHttpClient;
 import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.docdb.DocDbClient;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.sqs.SqsClient;
@@ -34,6 +35,14 @@ public class DependencyFactory {
     
     public static DynamoDbClient dynamodbClient() {
     	return DynamoDbClient.builder()
+    			.credentialsProvider(credentialsProvider)
+    			.region(region)
+    			.httpClientBuilder(httpClientBuilder)
+    			.build();
+    }
+    
+    public static DocDbClient documentdbClient() {
+    	return DocDbClient.builder()
     			.credentialsProvider(credentialsProvider)
     			.region(region)
     			.httpClientBuilder(httpClientBuilder)

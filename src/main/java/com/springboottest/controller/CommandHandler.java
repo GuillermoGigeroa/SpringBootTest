@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
 
+import com.springboottest.aws.handlers.DocumentDBHandler;
 import com.springboottest.aws.handlers.DynamoDBHandler;
 import com.springboottest.aws.handlers.S3Handler;
 import com.springboottest.aws.handlers.SQSHandler;
@@ -19,6 +20,7 @@ public class CommandHandler {
 	private S3Handler s3Handler;
 	private SQSHandler sqsHandler;
 	private DynamoDBHandler dynamoDBHandler;
+	private DocumentDBHandler documentDBHandler;
 	private final static String bucketName = "certantbuckettest";
 	private final static String keyName = "test/txt.txt";
 	private final static String sqsQueueName = "test";
@@ -29,6 +31,7 @@ public class CommandHandler {
 		s3Handler = new S3Handler();
 		sqsHandler = new SQSHandler();
 		dynamoDBHandler = new DynamoDBHandler();
+		documentDBHandler = new DocumentDBHandler();
 	}
 	
 	public String executeCommand(String[] commands) {
@@ -79,6 +82,8 @@ public class CommandHandler {
 				}
 			case "DYNAMODBLISTTABLES":
 				return this.dynamoDBHandler.listAllTables();
+			case "DOCUMENTDBTEST":
+				return this.testDocumentDB();
 		}
 		return "Comando no válido";
 	}
@@ -167,6 +172,10 @@ public class CommandHandler {
 	
 	public String testDynamoDB(String tableName) {
 		return dynamoDBHandler.describeDymamoDBTable(tableName);
+	}
+	
+	public String testDocumentDB() {
+		return "TestDocumentDB";
 	}
 	
 }
