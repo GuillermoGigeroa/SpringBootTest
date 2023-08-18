@@ -36,7 +36,7 @@ public class Controller {
 		Utils.logger("Usuario encontrado con findById(1):");
 		Utils.logger(usuario != null ? usuario.toString() : "usuario: null");
 
-		Utils.logger("Usuario encontrado con findByEmail(\"test@gmail.com\"):");
+		Utils.logger("Usuario encontrado con findByEmail(\"guille@gmail.com\"):");
 		usuario = dbConnector.findByEmail("test@gmail.com");
 		Utils.logger(usuario != null ? usuario.toString() : "usuario: null");
 		return "Prueba ejecutada.";
