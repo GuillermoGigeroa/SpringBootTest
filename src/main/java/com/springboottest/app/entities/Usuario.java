@@ -1,4 +1,4 @@
-package com.springboottest.entities;
+package com.springboottest.app.entities;
 
 import java.util.Objects;
 

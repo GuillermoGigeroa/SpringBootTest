@@ -1,4 +1,4 @@
-package com.springboottest.utils;
+package com.springboottest.app.utils;
 
 public class Utils {
 	public static String writeMessage(String message) {

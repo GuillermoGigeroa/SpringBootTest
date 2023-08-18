@@ -1,15 +1,13 @@
-package com.springboottest.controller;
+package com.springboottest.app.controller;
 
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
-
-import com.springboottest.aws.handlers.DocumentDBHandler;
-import com.springboottest.aws.handlers.DynamoDBHandler;
-import com.springboottest.aws.handlers.S3Handler;
-import com.springboottest.aws.handlers.SQSHandler;
-import com.springboottest.utils.Utils;
-
+import com.springboottest.app.aws.handlers.DocumentDBHandler;
+import com.springboottest.app.aws.handlers.DynamoDBHandler;
+import com.springboottest.app.aws.handlers.S3Handler;
+import com.springboottest.app.aws.handlers.SQSHandler;
+import com.springboottest.app.utils.Utils;
 import software.amazon.awssdk.services.sqs.model.Message;
 import software.amazon.awssdk.services.s3.model.ListBucketsResponse;
 import software.amazon.awssdk.services.sqs.model.ListQueuesResponse;

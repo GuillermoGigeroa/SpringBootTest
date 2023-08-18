@@ -1,8 +1,9 @@
-package com.springboottest.aws.handlers;
+package com.springboottest.app.aws.handlers;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.springboottest.aws.factory.DependencyFactory;
+import com.springboottest.app.aws.factory.DependencyFactory;
+
 import software.amazon.awssdk.services.docdb.DocDbClient;
 
 public class DocumentDBHandler implements RequestHandler<Object, Object> {

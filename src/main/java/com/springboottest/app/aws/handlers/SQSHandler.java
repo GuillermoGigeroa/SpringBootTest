@@ -1,10 +1,10 @@
-package com.springboottest.aws.handlers;
+package com.springboottest.app.aws.handlers;
 
 import java.util.List;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.springboottest.aws.factory.DependencyFactory;
-import com.springboottest.utils.Utils;
+import com.springboottest.app.aws.factory.DependencyFactory;
+import com.springboottest.app.utils.Utils;
 
 import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.model.DeleteMessageRequest;

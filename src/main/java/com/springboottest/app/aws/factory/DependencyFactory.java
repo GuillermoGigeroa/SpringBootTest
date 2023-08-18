@@ -1,4 +1,4 @@
-package com.springboottest.aws.factory;
+package com.springboottest.app.aws.factory;
 
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
