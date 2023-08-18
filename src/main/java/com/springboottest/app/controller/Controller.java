@@ -1,5 +1,7 @@
 package com.springboottest.app.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,20 +28,11 @@ public class Controller {
 	}
 	
 	@GetMapping("/test")
-	public String test() {
-		Utils.logger("Usuarios encontrados con findAll():");
-		for (Usuario usuario : dbConnector.findAll()) {
-			Utils.logger(usuario.toString());
-		}
-
-		Usuario usuario = dbConnector.findById(1);
-		Utils.logger("Usuario encontrado con findById(1):");
-		Utils.logger(usuario != null ? usuario.toString() : "usuario: null");
-
-		Utils.logger("Usuario encontrado con findByEmail(\"guille@gmail.com\"):");
-		usuario = dbConnector.findByEmail("test@gmail.com");
-		Utils.logger(usuario != null ? usuario.toString() : "usuario: null");
-		return "Prueba ejecutada.";
+	public ModelAndView test() {
+		Iterable<Usuario> usuarios = dbConnector.findAll();
+		logs = "Prueba ejecutada: "+usuarios.toString()+".";
+		MAV.addObject("logs", logs);
+		return MAV;
 	}
 	
 	@GetMapping("/ejecutar/{comandos}")
