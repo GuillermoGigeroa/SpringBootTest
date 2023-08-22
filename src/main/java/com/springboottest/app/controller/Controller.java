@@ -1,9 +1,12 @@
 package com.springboottest.app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.GsonJsonParser;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import com.springboottest.app.utils.Utils;
@@ -33,6 +36,11 @@ public class Controller {
 		}
 		MAV.addObject("logs", logs);
 		return MAV;
+	}
+	
+	@PostMapping("/getUsers")
+	public String getUsers() {
+		return "{'response': 'test'}";
 	}
 	
 	@ModelAttribute("logs")
