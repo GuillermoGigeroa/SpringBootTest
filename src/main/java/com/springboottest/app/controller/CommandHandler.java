@@ -2,11 +2,14 @@ package com.springboottest.app.controller;
 
 import java.util.List;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.springboottest.app.aws.handlers.DocumentDBHandler;
 import com.springboottest.app.aws.handlers.DynamoDBHandler;
 import com.springboottest.app.aws.handlers.S3Handler;
 import com.springboottest.app.aws.handlers.SQSHandler;
+import com.springboottest.app.db.PostgreDBConnector;
+import com.springboottest.app.entities.Usuario;
 import com.springboottest.app.utils.Utils;
 import software.amazon.awssdk.services.sqs.model.Message;
 import software.amazon.awssdk.services.s3.model.ListBucketsResponse;
@@ -15,22 +18,24 @@ import software.amazon.awssdk.services.sqs.model.ListQueuesResponse;
 @Component
 public class CommandHandler {
 	
+	@Autowired
+	private PostgreDBConnector dbConnector;
+	@Autowired
 	private S3Handler s3Handler;
+	@Autowired
 	private SQSHandler sqsHandler;
+	@Autowired
 	private DynamoDBHandler dynamoDBHandler;
+	@Autowired
 	private DocumentDBHandler documentDBHandler;
+	
 	private final static String bucketName = "certantbuckettest";
 	private final static String keyName = "test/txt.txt";
 	private final static String sqsQueueName = "test";
 	private String sqsMessageGroupId;
 	private String sqsQueueUrl;
 	
-	public CommandHandler() {
-		s3Handler = new S3Handler();
-		sqsHandler = new SQSHandler();
-		dynamoDBHandler = new DynamoDBHandler();
-		documentDBHandler = new DocumentDBHandler();
-	}
+	public CommandHandler() {}
 	
 	public String executeCommand(String[] commands) {
 		switch (commands[0]) {
@@ -82,6 +87,8 @@ public class CommandHandler {
 				return this.dynamoDBHandler.listAllTables();
 			case "DOCUMENTDBTEST":
 				return this.testDocumentDB();
+			case "POSTGRESQLLISTALLUSERS":
+				return Utils.logger(this.testListarUsuarios());
 		}
 		return "Comando no válido";
 	}
@@ -174,6 +181,11 @@ public class CommandHandler {
 	
 	public String testDocumentDB() {
 		return "TestDocumentDB";
+	}
+	
+	public String testListarUsuarios() {
+		Iterable<Usuario> usuarios = dbConnector.findAll();
+		return usuarios.toString();
 	}
 	
 }

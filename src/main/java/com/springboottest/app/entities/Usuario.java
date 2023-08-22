@@ -2,6 +2,7 @@ package com.springboottest.app.entities;
 
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,9 +13,12 @@ import jakarta.persistence.Table;
 @Table(name = "usuarios")
 public class Usuario {
 	@Id
+	@Column(name="id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	@Column(name="name")
 	private String name;
+	@Column(name="email")
 	private String email;
 
 	protected Usuario() {

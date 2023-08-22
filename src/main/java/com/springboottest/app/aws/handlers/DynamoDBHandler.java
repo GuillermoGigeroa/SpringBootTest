@@ -2,10 +2,10 @@ package com.springboottest.app.aws.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Component;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.springboottest.app.aws.factory.DependencyFactory;
-
 import software.amazon.awssdk.core.waiters.WaiterResponse;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.AttributeDefinition;
@@ -25,6 +25,7 @@ import software.amazon.awssdk.services.dynamodb.model.ScalarAttributeType;
 import software.amazon.awssdk.services.dynamodb.model.TableDescription;
 import software.amazon.awssdk.services.dynamodb.waiters.DynamoDbWaiter;
 
+@Component
 public class DynamoDBHandler implements RequestHandler<Object, Object> {
     private final DynamoDbClient dynamoDBClient;
 

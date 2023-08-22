@@ -1,11 +1,11 @@
 package com.springboottest.app.aws.handlers;
 
 import java.util.List;
+import org.springframework.stereotype.Component;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.springboottest.app.aws.factory.DependencyFactory;
 import com.springboottest.app.utils.Utils;
-
 import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.model.DeleteMessageRequest;
 import software.amazon.awssdk.services.sqs.model.ListQueuesRequest;
@@ -15,6 +15,7 @@ import software.amazon.awssdk.services.sqs.model.ReceiveMessageRequest;
 import software.amazon.awssdk.services.sqs.model.SendMessageRequest;
 import software.amazon.awssdk.services.sqs.model.SqsException;
 
+@Component
 public class SQSHandler implements RequestHandler<Object, Object> {
     private final SqsClient sqsClient;
 

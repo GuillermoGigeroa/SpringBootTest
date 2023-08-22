@@ -1,5 +1,7 @@
 package com.springboottest.app.aws.factory;
 
+import org.springframework.stereotype.Component;
+
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
 import software.amazon.awssdk.http.SdkHttpClient.Builder;
@@ -10,6 +12,7 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.sqs.SqsClient;
 
+@Component
 public class DependencyFactory {
 	private static final Region region = Region.US_EAST_1;
 	private static final AwsCredentialsProvider credentialsProvider = EnvironmentVariableCredentialsProvider.create();
