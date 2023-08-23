@@ -14,14 +14,17 @@ import jakarta.persistence.Table;
 public class Usuario {
 	@Id
 	@Column(name="id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(name="name")
 	private String name;
 	@Column(name="email")
 	private String email;
 
-	protected Usuario() {
+	public Usuario() {
+		this.id = (long) -1;
+		this.name = "name";
+		this.email = "email@email.com";
 	}
 
 	public Usuario(String name, String email) {

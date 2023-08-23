@@ -50,6 +50,27 @@ public class Controller {
 		return new ResponseEntity<>(listaUsuarios, HttpStatus.OK);
 	}
 	
+	@GetMapping("usuarios/listar")
+	public ModelAndView insertUser() {
+		logs = dbController.listarUsuarios().toString();
+		MAV.addObject("logs", logs);
+		return MAV;
+	}
+	
+	@GetMapping("usuarios/insertar/{nombre}/{email}")
+	public ModelAndView insertUser(@PathVariable String nombre, @PathVariable String email) {
+		logs = dbController.insertarUsuario(nombre, email);
+		MAV.addObject("logs", logs);
+		return MAV;
+	}
+
+	@GetMapping("usuarios/eliminarPorEmail/{email}")
+	public ModelAndView deleteUser(@PathVariable String email) {
+		logs = dbController.eliminarUsuarioPorEmail(email);
+		MAV.addObject("logs", logs);
+		return MAV;
+	}
+	
 	@ModelAttribute("logs")
 	public String getLogs() {
 	    return logs;
