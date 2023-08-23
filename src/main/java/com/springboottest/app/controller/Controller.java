@@ -23,11 +23,13 @@ public class Controller {
 
 	private ModelAndView MAV = new ModelAndView("index");
 	private String logs;
+	private Boolean console = false;
 	
 	@GetMapping("/")
 	public ModelAndView index() {
 		logs = "Sistema activo y funcionando correctamente. Para ejecutar comandos ingrese a /ejecutar/{comandos}";
 		MAV.addObject("logs", logs);
+		MAV.addObject("console", console);
 		return MAV;
 	}
 	
@@ -40,6 +42,16 @@ public class Controller {
 			logs = Utils.logger(e.toString()+ ":\n" +e.getMessage().toString());
 		}
 		MAV.addObject("logs", logs);
+		MAV.addObject("console", console);
+		return MAV;
+	}
+	
+	@GetMapping("/test/consola")
+	public ModelAndView enableConsole() {
+		console = !console;
+		logs = console ? "Se ha desplegado la consola python de prueba." : "Se ha ocultado la consola python de prueba.";
+		MAV.addObject("logs", logs);
+		MAV.addObject("console", console);
 		return MAV;
 	}
 	
@@ -54,6 +66,7 @@ public class Controller {
 	public ModelAndView insertUser() {
 		logs = dbController.listarUsuarios().toString();
 		MAV.addObject("logs", logs);
+		MAV.addObject("console", console);
 		return MAV;
 	}
 	
@@ -61,6 +74,7 @@ public class Controller {
 	public ModelAndView insertUser(@PathVariable String nombre, @PathVariable String email) {
 		logs = dbController.insertarUsuario(nombre, email);
 		MAV.addObject("logs", logs);
+		MAV.addObject("console", console);
 		return MAV;
 	}
 
@@ -68,6 +82,7 @@ public class Controller {
 	public ModelAndView deleteUser(@PathVariable String email) {
 		logs = dbController.eliminarUsuarioPorEmail(email);
 		MAV.addObject("logs", logs);
+		MAV.addObject("console", console);
 		return MAV;
 	}
 	
