@@ -1,6 +1,7 @@
 package com.springboottest.app.controller;
 
 import java.util.List;
+import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.springboottest.app.db.DBController;
 import com.springboottest.app.entities.Usuario;
 import com.springboottest.app.utils.Utils;
-
-import javax0.levenshtein.Levenshtein;
 
 @RestController
 public class Controller {
@@ -90,7 +89,17 @@ public class Controller {
 	
 	@GetMapping("distancia/{texto1}/{texto2}")
 	public ModelAndView calcularDistancia(@PathVariable String texto1, @PathVariable String texto2) {
-		logs = "Distancia de Levenshtein entre \""+texto1+"\" y \""+texto2+"\" es: "+Levenshtein.distance(texto1, texto2);
+		LevenshteinDistance calculator = new LevenshteinDistance();
+		logs = "Distancia de Levenshtein entre \""+texto1+"\" y \""+texto2+"\" es: "+calculator.apply(texto1, texto2);
+		MAV.addObject("logs", logs);
+		MAV.addObject("console", console);
+		return MAV;
+	}
+
+	@GetMapping("distancia/{texto1}/{texto2}/{threshold}")
+	public ModelAndView calcularDistancia(@PathVariable String texto1, @PathVariable String texto2, @PathVariable Integer threshold) {
+		LevenshteinDistance calculator = new LevenshteinDistance(threshold);
+		logs = "Distancia de Levenshtein entre \""+texto1+"\" y \""+texto2+"\" es: "+calculator.apply(texto1, texto2);
 		MAV.addObject("logs", logs);
 		MAV.addObject("console", console);
 		return MAV;
