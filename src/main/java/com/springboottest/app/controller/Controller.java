@@ -13,6 +13,8 @@ import com.springboottest.app.db.DBController;
 import com.springboottest.app.entities.Usuario;
 import com.springboottest.app.utils.Utils;
 
+import javax0.levenshtein.Levenshtein;
+
 @RestController
 public class Controller {
 	@Autowired
@@ -81,6 +83,14 @@ public class Controller {
 	@GetMapping("usuarios/eliminarPorEmail/{email}")
 	public ModelAndView deleteUser(@PathVariable String email) {
 		logs = dbController.eliminarUsuarioPorEmail(email);
+		MAV.addObject("logs", logs);
+		MAV.addObject("console", console);
+		return MAV;
+	}
+	
+	@GetMapping("distancia/{texto1}/{texto2}")
+	public ModelAndView calcularDistancia(@PathVariable String texto1, @PathVariable String texto2) {
+		logs = "Distancia de Levenshtein entre \""+texto1+"\" y \""+texto2+"\" es: "+Levenshtein.distance(texto1, texto2);
 		MAV.addObject("logs", logs);
 		MAV.addObject("console", console);
 		return MAV;
