@@ -96,6 +96,7 @@ public class CommandHandler {
 			return errorMessage + e.toString();
 		}
 	}
+	
 	public String testS3Upload(String fileUrl) {
 		return s3Handler.putS3Object(bucketName, keyName, fileUrl);
 	}
@@ -171,6 +172,14 @@ public class CommandHandler {
 	
 	public String testDynamoDB(String tableName) {
 		return dynamoDBHandler.describeDymamoDBTable(tableName);
+	}
+	
+	public String testS3UploadFromBase64(String base64) {
+		return s3Handler.putS3ObjectFromBase64(bucketName, "base64/test.jpg", base64);
+	}
+	
+	public String testS3DownloadBase64() {
+		return s3Handler.getObjectBytes(bucketName, "base64/test.jpg", "test.jpg");
 	}
 	
 }

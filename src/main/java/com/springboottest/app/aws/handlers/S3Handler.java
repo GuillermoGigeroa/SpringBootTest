@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.stereotype.Component;
@@ -52,6 +53,25 @@ public class S3Handler implements RequestHandler<Object, Object> {
                 .metadata(metadata)
                 .build();
             s3Client.putObject(putOb, RequestBody.fromFile(new File(objectPath)));
+            return "Successfully placed " + objectKey +" into bucket "+bucketName;
+        } catch (S3Exception e) {
+            System.err.println(e.getMessage());
+            return e.getMessage().toString();
+        }
+    }
+    
+    public String putS3ObjectFromBase64(String bucketName, String objectKey, String base64) {
+    	// This method uses RequestBody.fromFile to avoid loading the whole file into memory.
+        try {
+            Map<String, String> metadata = new HashMap<>();
+            metadata.put("x-amz-meta-myVal", "test");
+            PutObjectRequest putOb = PutObjectRequest.builder()
+                .bucket(bucketName)
+                .key(objectKey)
+                .metadata(metadata)
+                .build();
+            byte[] base64Data = Base64.getDecoder().decode(base64);
+            s3Client.putObject(putOb, RequestBody.fromBytes(base64Data));
             return "Successfully placed " + objectKey +" into bucket "+bucketName;
         } catch (S3Exception e) {
             System.err.println(e.getMessage());
